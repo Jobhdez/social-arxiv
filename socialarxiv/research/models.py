@@ -1,6 +1,8 @@
 from django.db import models
 from taggit.managers import TaggableManager
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+
 
 
 class Paper(models.Model):
@@ -63,3 +65,17 @@ user_model.add_to_class('following',
                             through=Contact,
                             related_name='followers',
                             symmetrical=False))
+
+
+# Topic model
+class StudyGroup(models.Model):
+
+    papers = models.ManyToManyField(Paper)
+    users = models.ManyToManyField(User)
+    name =  models.CharField(max_length=1000)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
